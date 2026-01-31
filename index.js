@@ -17,8 +17,6 @@ app.get('/read', async(req,res) => {
     res.render("read" , {users: allusers});
 })
 
-
-
 // that is post data 
 app.post('/create', async (req,res) => {
     let {name, email, image} = req.body;
@@ -38,5 +36,17 @@ app.get('/delete/:id', async(req,res) => {
     res.redirect("/read");
 })
 
+
+// that is update data 
+app.get('/edit/:id', async (req, res) => {
+    let user = await userModel.findById(req.params.id);
+    res.render("edit", { user });
+});
+// that code update and post data 
+app.post('/update/:userid', async (req, res) => {
+    let {image, name, email} = req.body;
+    await userModel.findOneAndUpdate(req.params.id, {image, name, email});
+    res.redirect("/read");
+});
 
 app.listen(3000);
